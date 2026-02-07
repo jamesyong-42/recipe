@@ -1,0 +1,252 @@
+import React from 'react';
+import {
+  Bitcoin,
+  Share2,
+  MessageSquare,
+  Shapes,
+  BookOpen,
+  Type,
+  ArrowRight,
+  PlusCircle,
+  Crosshair,
+  Wifi,
+  Cpu,
+  Database,
+  Info
+} from 'lucide-react';
+
+const Dashboard = () => {
+  return (
+    <div className="min-h-screen bg-white text-black font-sans selection:bg-gray-200 p-4 md:p-8">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+  <div className="flex items-center gap-6">
+    {/* Window Controls (Mac Style - decorative) */}
+    <div className="flex gap-2">
+  <div className="w-3 h-3 rounded-full border border-black bg-white hover:bg-gray-200 transition-colors"></div>
+    <div className="w-3 h-3 rounded-full border border-black bg-white hover:bg-gray-200 transition-colors"></div>
+    <div className="w-3 h-3 rounded-full border border-black bg-white hover:bg-gray-200 transition-colors"></div>
+    </div>
+
+    <div className="flex items-center gap-4">
+  <div className="flex items-center gap-2">
+  <div className="w-4 h-4 bg-black"></div>
+    <span className="font-semibold text-lg tracking-tight">Tlon</span>
+    </div>
+    <div className="flex items-center gap-2 text-gray-500 border-l border-gray-300 pl-4">
+  <Crosshair size={16} />
+  <span className="text-sm font-medium">33 ships</span>
+  </div>
+  </div>
+  </div>
+
+  <button className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all text-gray-600 hover:text-black">
+  <PlusCircle size={18} />
+  <span className="text-sm font-medium">New Module</span>
+  </button>
+  </div>
+
+  {/* Main Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-fr">
+
+    {/* 1. Clock Widget - Custom SVG illustration */}
+    <div className="aspect-square border border-black p-4 flex items-center justify-center relative bg-white group hover:shadow-lg transition-shadow duration-300">
+  <div className="relative w-full h-full flex items-center justify-center">
+    {/* Abstract Clock SVG */}
+    <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+    {/* Background Track */}
+    <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f3f4f6" strokeWidth="12" />
+    {/* Segments matching the screenshot style */}
+    <circle cx="50" cy="50" r="40" fill="transparent" stroke="#000" strokeWidth="12" strokeDasharray="100 251" strokeLinecap="butt" />
+  <circle cx="50" cy="50" r="40" fill="transparent" stroke="#fca5a5" strokeWidth="12" strokeDasharray="30 251" strokeDashoffset="-110" />
+  <circle cx="50" cy="50" r="40" fill="transparent" stroke="#fbbf24" strokeWidth="12" strokeDasharray="20 251" strokeDashoffset="-150" />
+  <circle cx="50" cy="50" r="40" fill="transparent" stroke="#93c5fd" strokeWidth="12" strokeDasharray="40 251" strokeDashoffset="-180" />
+    </svg>
+
+    <div className="absolute inset-0 flex flex-col items-center justify-center">
+  <span className="text-3xl font-bold tracking-tighter">13:18</span>
+  <span className="text-xs text-gray-500 font-medium uppercase tracking-wide">Jan 27</span>
+  </div>
+
+  {/* Status indicator dot */}
+  <div className="absolute top-2 right-2 w-3 h-3 bg-yellow-400 rounded-full border border-black shadow-sm"></div>
+    </div>
+    </div>
+
+  {/* 2. Weather Widget */}
+  <div className="aspect-square border border-black p-5 flex flex-col justify-between bg-gradient-to-br from-blue-50 via-white to-orange-50 hover:shadow-lg transition-shadow duration-300">
+  <div className="flex justify-between items-start">
+  <span className="text-sm font-semibold tracking-tight">Weather</span>
+    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+    </div>
+    <div className="mt-auto">
+  <div className="text-4xl font-light mb-1">34°C</div>
+  <div className="text-sm font-medium">Sunny</div>
+    <div className="text-xs text-gray-500 mt-1">Sunset in 4.5hr</div>
+  </div>
+  </div>
+
+  {/* 3. Groups */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <div className="flex justify-between w-full">
+  <span className="text-sm font-semibold tracking-tight">Groups</span>
+    <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+    </div>
+    <div className="flex justify-center items-center flex-grow">
+  <div className="relative">
+  <Share2 size={48} strokeWidth={1} className="text-black" />
+  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border border-white"></div>
+    </div>
+    </div>
+    <div className="w-full text-right">
+  <span className="text-sm font-bold">99+</span>
+    </div>
+    </div>
+
+  {/* 4. BTC Wallet */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <span className="text-sm font-semibold tracking-tight">BTC Wallet</span>
+  <div className="flex justify-center items-center h-full">
+  <div className="w-20 h-20 rounded-full border border-black flex items-center justify-center bg-white group-hover:scale-105 transition-transform">
+  <Bitcoin size={40} strokeWidth={1} />
+  </div>
+  </div>
+  </div>
+
+  {/* 5. BTC Node */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <div className="flex justify-between w-full">
+  <span className="text-sm font-semibold tracking-tight">BTC Node</span>
+  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+    </div>
+    <div className="flex justify-center items-center h-full">
+  <Share2 size={56} strokeWidth={1} className="text-black rotate-45 group-hover:rotate-90 transition-transform duration-500" />
+    </div>
+    </div>
+
+  {/* 6. Messaging */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <span className="text-sm font-semibold tracking-tight">Messaging</span>
+    <div className="flex justify-center items-center h-full">
+  <div className="w-20 h-20 rounded-full border border-black flex items-center justify-center bg-white group-hover:shadow-md transition-all">
+  <div className="flex gap-1.5">
+  <div className="w-2 h-2 bg-black rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+  <div className="w-2 h-2 bg-black rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+  <div className="w-2 h-2 bg-black rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+  </div>
+  </div>
+  </div>
+  <div className="w-full text-right">
+  <span className="text-sm font-bold">52</span>
+    </div>
+    </div>
+
+  {/* 7. Collections */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <span className="text-sm font-semibold tracking-tight">Collections</span>
+    <div className="flex justify-center items-center h-full">
+  <Shapes size={56} strokeWidth={1} className="group-hover:scale-110 transition-transform" />
+    </div>
+    <div className="w-full text-right">
+  <span className="text-sm font-bold">12</span>
+    </div>
+    </div>
+
+  {/* 8. Reader */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <span className="text-sm font-semibold tracking-tight">Reader</span>
+    <div className="flex justify-center items-center h-full">
+  <BookOpen size={56} strokeWidth={1} className="group-hover:-translate-y-1 transition-transform" />
+    </div>
+    </div>
+
+  {/* 9. Writer */}
+  <div className="aspect-square border border-black p-4 flex flex-col justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+  <span className="text-sm font-semibold tracking-tight">Writer</span>
+    <div className="flex justify-center items-center h-full">
+  <Type size={56} strokeWidth={1} />
+  </div>
+  </div>
+
+  {/* 10. System Info - Spans 2 rows on large screens */}
+  <div className="col-span-1 row-span-1 lg:row-span-2 border border-black p-5 flex flex-col bg-white">
+  <div className="flex justify-between items-start mb-6">
+  <span className="text-sm font-semibold tracking-tight max-w-[100px] leading-tight">System Info & Debug</span>
+  <span className="text-xs font-mono bg-black text-white px-1.5 rounded">β</span>
+    </div>
+
+    <div className="space-y-5 flex-grow">
+  <InfoRow icon={<Wifi size={14}/>} label="Peers" color="bg-orange-400" />
+  <InfoRow icon={<Share2 size={14}/>} label="Network" color="bg-orange-400" />
+  <InfoRow icon={<Cpu size={14}/>} label="Memory" color="bg-teal-400" />
+  <InfoRow icon={<Info size={14}/>} label="Version" color="bg-green-400" />
+  <InfoRow icon={<Database size={14}/>} label="Storage" color="bg-blue-400" />
+  </div>
+
+  <div className="flex justify-between items-center text-xs mt-6 pt-4 border-t border-dashed border-gray-300">
+  <span className="text-gray-500 uppercase tracking-wider">Debug Log</span>
+  <button className="text-teal-600 hover:text-teal-800 font-medium cursor-pointer hover:underline">
+    View All
+  </button>
+  </div>
+  </div>
+
+  {/* 11. Storage */}
+  <div className="aspect-square border border-black flex flex-col relative overflow-hidden bg-white hover:shadow-lg transition-shadow">
+  <div className="p-4 z-10 flex justify-between items-start">
+  <span className="text-sm font-semibold tracking-tight">Storage</span>
+    <Database size={16} className="text-gray-400" />
+    </div>
+
+    <div className="mt-auto relative w-full h-2/5 bg-blue-50 border-t border-black">
+    {/* Wave decoration using CSS */}
+    <div className="absolute top-0 left-0 right-0 h-1 bg-blue-300 opacity-50"></div>
+
+    <div className="absolute -top-8 left-4 z-20">
+  <span className="text-2xl font-light">1.43</span>
+    <span className="text-xs text-gray-500 ml-1">TB</span>
+    </div>
+
+    <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+    / 4.0 TB
+  </div>
+
+  {/* Simple visual fill */}
+  <div className="w-full h-full bg-blue-100 opacity-50"></div>
+    </div>
+    </div>
+
+  {/* 12. Placeholder / Terminal */}
+  <div className="aspect-square border border-black p-4 flex flex-col bg-black text-white cursor-pointer group">
+  <div className="flex justify-between items-center mb-2">
+  <span className="text-xs font-mono text-gray-400">TERM_01</span>
+    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+    </div>
+    <div className="font-mono text-xs text-green-400 overflow-hidden leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">
+    &gt; init_sequence<br/>
+    &gt; loading modules...<br/>
+  &gt; connection est.<br/>
+  &gt; <span className="animate-pulse">_</span>
+    </div>
+    </div>
+
+    </div>
+    </div>
+);
+};
+
+// Helper component for System Info rows
+  const InfoRow = ({ label, color, icon }) => (
+    <div className="flex items-center justify-between group cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors -mx-1">
+    <div className="flex items-center gap-3">
+    <div className="text-gray-400 group-hover:text-black transition-colors">{icon}</div>
+      <span className="text-sm font-medium">{label}</span>
+    </div>
+    <div className="flex items-center gap-2">
+  <div className={`w-2 h-2 rounded-full ${color} shadow-sm`}></div>
+  <ArrowRight size={12} className="text-transparent group-hover:text-black transition-all transform group-hover:translate-x-1" />
+    </div>
+    </div>
+);
+
+export default Dashboard;
