@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { Copy, Check, Trash2, Code, RefreshCw, Loader2 } from 'lucide-react';
 import { SnippetPreview } from './SnippetPreview';
 import { useInView } from '../hooks/useInView';
+import { useRenderQueue } from '../hooks/useRenderQueue';
 import type { Snippet } from '../types';
 
 // Track which snippets have been auto-refreshed this session
@@ -14,7 +15,7 @@ interface SnippetCardProps {
   onDelete: () => void;
 }
 
-const SCALE_FACTOR = 3; // Render at 3x resolution for crisp preview
+const SCALE_FACTOR = 1; // 1:1 rendering — 3x was needlessly expensive on mobile
 
 export function SnippetCard({ snippet, onClick, onCopy, onDelete }: SnippetCardProps) {
   const [copied, setCopied] = useState(false);
@@ -24,8 +25,11 @@ export function SnippetCard({ snippet, onClick, onCopy, onDelete }: SnippetCardP
   const previewRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600, scale: 1 / SCALE_FACTOR });
 
-  // Only load Sandpack when card is visible (lazy loading)
-  const isVisible = useInView(cardRef);
+  // Load when near the viewport; unload when scrolled far away to free iframe memory
+  const isVisible = useInView(cardRef, { rootMargin: '400px', sticky: false });
+  // Limit concurrent Sandpack instances to avoid ERR_INSUFFICIENT_RESOURCES
+  const { hasSlot, release } = useRenderQueue(isVisible);
+  const shouldRender = isVisible && hasSlot;
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -65,6 +69,11 @@ export function SnippetCard({ snippet, onClick, onCopy, onDelete }: SnippetCardP
   const handleLoadingChange = useCallback((loading: boolean) => {
     setIsLoading(loading);
 
+    if (!loading) {
+      // Release the render queue slot so the next card can start
+      release();
+    }
+
     // Auto-refresh once after initial page load to fix rendering issues (HTML only)
     // React snippets don't need this workaround
     if (!loading && snippet.type === 'html' && !autoRefreshedSnippets.has(snippet.id)) {
@@ -73,7 +82,7 @@ export function SnippetCard({ snippet, onClick, onCopy, onDelete }: SnippetCardP
         setRefreshKey((k) => k + 1);
       }, 500);
     }
-  }, [snippet.id, snippet.type]);
+  }, [snippet.id, snippet.type, release]);
 
   return (
     <div ref={cardRef} className="snippet-card" onClick={onClick}>
@@ -87,7 +96,7 @@ export function SnippetCard({ snippet, onClick, onCopy, onDelete }: SnippetCardP
         } as React.CSSProperties}
       >
         <div className={`snippet-card-preview-content ${isLoading ? 'loading' : 'loaded'}`}>
-          {isVisible && (
+          {shouldRender && (
             <SnippetPreview
               key={refreshKey}
               code={snippet.code}
@@ -98,7 +107,7 @@ export function SnippetCard({ snippet, onClick, onCopy, onDelete }: SnippetCardP
         </div>
         {/* Transparent overlay to block all interactions */}
         <div className="snippet-card-overlay" />
-        {(!isVisible || isLoading) && (
+        {(!shouldRender || isLoading) && (
           <div className="snippet-card-loading">
             <Loader2 size={24} className="spin" />
           </div>
