@@ -7,11 +7,13 @@ export function HtmlEditor({
   onCodeChange,
   refreshKey,
   onLoadingChange,
+  activeTab = 'code',
 }: {
   code: string;
   onCodeChange: (code: string) => void;
   refreshKey: number;
   onLoadingChange: (loading: boolean) => void;
+  activeTab?: 'code' | 'preview';
 }) {
   const [localCode, setLocalCode] = useState(code);
 
@@ -36,7 +38,7 @@ export function HtmlEditor({
   const srcDoc = useMemo(() => generateHtmlDocument(localCode), [localCode]);
 
   return (
-    <div className="editor-content editor-content-html">
+    <div className={`editor-content editor-content-html tab-${activeTab}`}>
       <div className="editor-pane">
         <Editor
           height="100%"

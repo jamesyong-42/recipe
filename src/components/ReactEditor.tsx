@@ -47,16 +47,18 @@ export function ReactEditor({
   onCodeChange,
   refreshKey,
   onLoadingChange,
+  activeTab = 'code',
 }: {
   code: string;
   onCodeChange: (code: string) => void;
   refreshKey: number;
   onLoadingChange: (loading: boolean) => void;
+  activeTab?: 'code' | 'preview';
 }) {
   const processedCode = useMemo(() => processReactCode(code), [code]);
 
   return (
-    <div className="editor-content editor-content-react">
+    <div className={`editor-content editor-content-react tab-${activeTab}`}>
       <SandpackProvider
         key={refreshKey}
         template="react-ts"

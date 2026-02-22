@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
-import { ArrowLeft, Copy, Check, Trash2, Code, RefreshCw, Loader2 } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Trash2, Code, Eye, RefreshCw, Loader2 } from 'lucide-react';
 import { ReactEditor } from './ReactEditor';
 import { HtmlEditor } from './HtmlEditor';
 import type { Snippet } from '../types';
+
+type EditorTab = 'code' | 'preview';
 
 // Track which snippets have been auto-refreshed this session in editor
 const autoRefreshedInEditor = new Set<string>();
@@ -28,6 +30,7 @@ export function SnippetEditor({
   const [currentCode, setCurrentCode] = useState(snippet.code);
   const [refreshKey, setRefreshKey] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<EditorTab>('code');
 
   const handleCodeChange = useCallback(
     (newCode: string) => {
@@ -133,12 +136,30 @@ export function SnippetEditor({
         </div>
       </div>
 
+      <div className="editor-tabs">
+        <button
+          className={`editor-tab${activeTab === 'code' ? ' active' : ''}`}
+          onClick={() => setActiveTab('code')}
+        >
+          <Code size={15} />
+          Code
+        </button>
+        <button
+          className={`editor-tab${activeTab === 'preview' ? ' active' : ''}`}
+          onClick={() => setActiveTab('preview')}
+        >
+          <Eye size={15} />
+          Preview
+        </button>
+      </div>
+
       {snippet.type === 'react' ? (
         <ReactEditor
           code={snippet.code}
           onCodeChange={handleCodeChange}
           refreshKey={refreshKey}
           onLoadingChange={handleLoadingChange}
+          activeTab={activeTab}
         />
       ) : (
         <HtmlEditor
@@ -146,6 +167,7 @@ export function SnippetEditor({
           onCodeChange={handleCodeChange}
           refreshKey={refreshKey}
           onLoadingChange={handleLoadingChange}
+          activeTab={activeTab}
         />
       )}
     </div>
