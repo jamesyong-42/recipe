@@ -1,19 +1,28 @@
+<div align="center">
+
 # Recipe
 
-Paste, preview, and manage UI code snippets — instantly.
+**Paste, preview, and manage UI code snippets — instantly.**
 
-[Live Demo](https://jamesyong-42.github.io/recipe/)
+[Live Demo](https://jamesyong-42.github.io/recipe/) &nbsp;&middot;&nbsp; [Report Bug](https://github.com/jamesyong-42/recipe/issues) &nbsp;&middot;&nbsp; [Request Feature](https://github.com/jamesyong-42/recipe/issues)
 
-## Features
+</div>
 
-- **Instant live preview** — paste any React or HTML snippet and see it render immediately
-- **Smart dependency detection** — auto-detects npm imports from your code and loads only what's needed
-- **Draggable split pane** — resize the code/preview ratio, or collapse the editor entirely
-- **Two editors** — Monaco for HTML, Sandpack (CodeSandbox) for React with full TypeScript support
-- **Cloud sync** — optionally connect your own Supabase for cross-device access
-- **localStorage-first** — works offline with zero configuration
-- **PWA** — installable on desktop and mobile
-- **Mobile responsive** — code/preview tab switching on small screens
+---
+
+Recipe is a lightweight, browser-based tool for saving and previewing UI code snippets. Paste any React or HTML code and see it render live — no build step, no server, no signup required.
+
+## Highlights
+
+| | Feature | Description |
+|---|---|---|
+| **&lt;/&gt;** | **Live Preview** | Paste React or HTML and see it render instantly via Sandpack and Monaco |
+| **:package:** | **Smart Dependencies** | Auto-detects `import` statements and loads only the npm packages your snippet needs |
+| **:arrows_leftright:** | **Draggable Split** | Resize the code/preview panes by dragging, or collapse the editor entirely |
+| **:cloud:** | **Cloud Sync** | Optionally connect your own Supabase — configure it right from the Settings UI |
+| **:floppy_disk:** | **Offline First** | Works immediately with localStorage, zero config, no account needed |
+| **:iphone:** | **Mobile Ready** | Responsive layout with code/preview tab switching on small screens |
+| **:rocket:** | **PWA** | Installable on desktop and mobile as a standalone app |
 
 ## Quick Start
 
@@ -24,41 +33,50 @@ pnpm install
 pnpm dev
 ```
 
-Open [https://localhost:5178](https://localhost:5178) — paste a snippet or click "New Snippet" to get started.
+Open **https://localhost:5178** — paste a snippet or click **New Snippet** to get started.
 
 ## Cloud Sync (Optional)
 
-Recipe works fully offline with localStorage. To enable cloud sync:
+Recipe works fully offline with localStorage. To enable cross-device sync:
 
 1. Create a free project at [supabase.com](https://supabase.com)
-2. Open the SQL Editor and run the setup SQL (available in Settings > Database Setup)
-3. Click the gear icon in Recipe, enter your project URL and anon key, and connect
+2. In Recipe, click the **gear icon** > expand **Database Setup** > copy the SQL
+3. Run the SQL in your Supabase project's **SQL Editor**
+4. Enter your project URL and anon key in Recipe's Settings, then click **Test & Connect**
 
-You can also set environment variables for your own deployment:
+Alternatively, set environment variables for your own deployment:
 
 ```bash
 cp .env.example .env
-# Edit .env with your Supabase credentials
+# Fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
 ```
 
 ## Tech Stack
 
-- [React 19](https://react.dev) + TypeScript
-- [Vite 7](https://vite.dev)
-- [Sandpack](https://sandpack.codesandbox.io) — live React preview
-- [Monaco Editor](https://microsoft.github.io/monaco-editor/) — HTML editing
-- [Supabase](https://supabase.com) — optional cloud storage
-- [react-router-dom](https://reactrouter.com) — client-side routing
+| Layer | Technology |
+|---|---|
+| Framework | [React 19](https://react.dev) + TypeScript |
+| Build | [Vite 7](https://vite.dev) with Brotli compression |
+| React Preview | [Sandpack](https://sandpack.codesandbox.io) (CodeSandbox runtime) |
+| HTML Editor | [Monaco Editor](https://microsoft.github.io/monaco-editor/) |
+| Storage | [Supabase](https://supabase.com) (optional) + localStorage |
+| Routing | [react-router-dom v7](https://reactrouter.com) |
 
-## Scripts
+## Project Structure
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start dev server on port 5178 |
-| `pnpm build` | Production build |
-| `pnpm preview` | Preview production build |
-| `pnpm lint` | Run ESLint |
+```
+src/
+  components/    UI components (editors, gallery, settings modal, split pane)
+  contexts/      React context (Supabase connection state)
+  hooks/         Custom hooks (useSnippets, useSplitPane, useInView)
+  lib/           Utilities (dependency detection, Supabase manager, Sandpack helpers)
+  pages/         Route pages (Home, Snippet)
+```
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) &copy; 2025-2026 James Yong

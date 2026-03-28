@@ -7,7 +7,7 @@ import './index.css';
 function App() {
   return (
     <SupabaseProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/snippet/:id" element={<SnippetPage />} />
