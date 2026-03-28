@@ -1,6 +1,7 @@
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import {
   SandpackProvider,
+  SandpackLayout,
   SandpackCodeEditor,
   SandpackPreview,
   useSandpack,
@@ -91,7 +92,14 @@ export function ReactEditor({
   );
 
   return (
-    <div className={`editor-content editor-content-react tab-${activeTab}`}>
+    <div
+      className={`editor-content editor-content-react tab-${activeTab}`}
+      ref={containerRef}
+      style={{
+        '--split-left': leftWidth,
+        '--split-right': rightWidth,
+      } as React.CSSProperties}
+    >
       <SandpackProvider
         key={`${refreshKey}-${depsKey}`}
         template="react-ts"
@@ -107,40 +115,28 @@ export function ReactEditor({
           recompileDelay: 500,
         }}
       >
-        <div className="split-container" ref={containerRef}>
-          <div
-            className="split-pane split-pane-left"
-            style={{ width: leftWidth }}
-          >
-            <SandpackCodeEditor
-              showLineNumbers
-              showTabs={false}
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-          <SplitDivider
-            codeVisible={codeVisible}
-            onMouseDown={handleMouseDown}
-            onToggle={toggleCode}
+        <SandpackLayout>
+          <SandpackCodeEditor
+            showLineNumbers
+            showTabs={false}
           />
-          <div
-            className="split-pane split-pane-right"
-            style={{ width: rightWidth }}
-          >
-            <SandpackPreview
-              showNavigator={false}
-              showRefreshButton={false}
-              showOpenInCodeSandbox={false}
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-        </div>
+          <SandpackPreview
+            showNavigator={false}
+            showRefreshButton={false}
+            showOpenInCodeSandbox={false}
+          />
+        </SandpackLayout>
         <SandpackSyncCode
           initialCode={liveCode}
           onCodeChange={handleCodeChange}
         />
         <SandpackStatusMonitor onStatusChange={onLoadingChange} />
       </SandpackProvider>
+      <SplitDivider
+        codeVisible={codeVisible}
+        onMouseDown={handleMouseDown}
+        onToggle={toggleCode}
+      />
     </div>
   );
 }
