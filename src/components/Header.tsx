@@ -1,12 +1,16 @@
-import { PlusCircle, Clipboard, Shapes } from 'lucide-react';
+import { PlusCircle, Clipboard, Shapes, Settings } from 'lucide-react';
+import { useSupabase } from '../contexts/SupabaseContext';
 
 interface HeaderProps {
   snippetCount: number;
   onNewSnippet: () => void;
   onPasteSnippet: () => void;
+  onOpenSettings: () => void;
 }
 
-export function Header({ snippetCount, onNewSnippet, onPasteSnippet }: HeaderProps) {
+export function Header({ snippetCount, onNewSnippet, onPasteSnippet, onOpenSettings }: HeaderProps) {
+  const { isConnected } = useSupabase();
+
   return (
     <div className="header">
       <div className="header-left">
@@ -29,6 +33,10 @@ export function Header({ snippetCount, onNewSnippet, onPasteSnippet }: HeaderPro
       </div>
 
       <div className="header-actions">
+        <button className="header-btn" onClick={onOpenSettings} title="Settings">
+          <Settings size={18} />
+          <span className={`settings-status-dot ${isConnected ? 'connected' : 'disconnected'}`} />
+        </button>
         <button className="header-btn" onClick={onPasteSnippet} title="Paste from clipboard (Cmd/Ctrl+V)">
           <Clipboard size={18} />
           <span>Paste</span>

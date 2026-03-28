@@ -1,7 +1,8 @@
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { SnippetGallery } from '../components/SnippetGallery';
+import { SettingsModal } from '../components/SettingsModal';
 import { useSnippets } from '../hooks/useSnippets';
 import type { Snippet } from '../types';
 
@@ -19,6 +20,7 @@ export default App;`;
 export function HomePage() {
   const navigate = useNavigate();
   const { snippets, addSnippet, deleteSnippet } = useSnippets();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const handlePaste = useCallback(async () => {
     try {
@@ -90,6 +92,7 @@ export function HomePage() {
         snippetCount={snippets.length}
         onNewSnippet={handleNewSnippet}
         onPasteSnippet={handlePaste}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
       <main className="main-content">
         <SnippetGallery
@@ -99,6 +102,7 @@ export function HomePage() {
           onDelete={handleDelete}
         />
       </main>
+      <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   );
 }
