@@ -30,9 +30,9 @@ export default defineConfig(({ mode }): UserConfig => {
         base,
         includeAssets: ['icon-192.svg', 'icon-512.svg', 'apple-touch-icon.svg'],
         manifest: {
-          name: 'UI Snippet Manager',
-          short_name: 'Snippets',
-          description: 'Create, preview and manage UI code snippets',
+          name: 'Recipe',
+          short_name: 'Recipe',
+          description: 'Paste, preview, and manage UI code snippets — instantly.',
           start_url: base,
           scope: base,
           display: 'standalone',

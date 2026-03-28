@@ -1,8 +1,15 @@
 {
-  "name": "template",
-  "private": true,
-  "version": "0.0.0",
+  "name": "recipe",
+  "version": "0.1.0",
   "type": "module",
+  "description": "Paste, preview, and manage UI code snippets — instantly.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesyong-42/recipe.git"
+  },
+  "homepage": "https://jamesyong-42.github.io/recipe/",
+  "keywords": ["ui", "snippets", "code-editor", "sandpack", "react", "preview", "pwa"],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

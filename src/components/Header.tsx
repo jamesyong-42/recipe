@@ -24,7 +24,7 @@ export function Header({ snippetCount, onNewSnippet, onPasteSnippet, onOpenSetti
           <div className="header-logo">
             <Shapes size={18} strokeWidth={1.5} />
           </div>
-          <span className="header-name">UI Snippets</span>
+          <span className="header-name">Recipe</span>
         </div>
 
         <div className="header-stats">
