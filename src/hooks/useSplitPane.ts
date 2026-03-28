@@ -13,11 +13,11 @@ export function useSplitPane({
 }: UseSplitPaneOptions = {}) {
   const [splitPercent, setSplitPercent] = useState(defaultPercent);
   const [codeVisible, setCodeVisible] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const lastVisiblePercent = useRef(defaultPercent);
 
-  // Keep track of last visible split for restore
   useEffect(() => {
     if (codeVisible && splitPercent > 0) {
       lastVisiblePercent.current = splitPercent;
@@ -27,6 +27,7 @@ export function useSplitPane({
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     dragging.current = true;
+    setIsDragging(true);
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
   }, []);
@@ -44,6 +45,7 @@ export function useSplitPane({
     const handleMouseUp = () => {
       if (dragging.current) {
         dragging.current = false;
+        setIsDragging(false);
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
       }
@@ -68,6 +70,7 @@ export function useSplitPane({
     containerRef,
     splitPercent,
     codeVisible,
+    isDragging,
     leftWidth,
     rightWidth,
     handleMouseDown,

@@ -505,6 +505,13 @@ body {
   height: var(--preview-height, 600px) !important;
 }
 
+/* Block iframe mouse capture during drag */
+.is-dragging iframe,
+.is-dragging .sp-preview-iframe,
+.is-dragging .cm-editor {
+  pointer-events: none !important;
+}
+
 /* Resizable split container */
 .split-container {
   display: flex;
@@ -517,6 +524,10 @@ body {
 .split-pane {
   overflow: hidden;
   transition: width 0.2s ease;
+}
+
+.is-dragging .split-pane {
+  transition: none;
 }
 
 .split-pane-left {
@@ -631,6 +642,10 @@ body {
 
 .editor-content-react .cm-editor {
   height: 100% !important;
+}
+
+.editor-content-react.is-dragging .sp-layout > .sp-stack {
+  transition: none !important;
 }
 
 /* Divider overlay for React editor — positioned absolutely at split point */

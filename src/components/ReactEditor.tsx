@@ -76,7 +76,7 @@ export function ReactEditor({
   const processedCode = useMemo(() => processReactCode(code), [code]);
   const [liveCode, setLiveCode] = useState(processedCode);
   const { dependencies, depsKey } = useDependencies(liveCode);
-  const { containerRef, codeVisible, leftWidth, rightWidth, handleMouseDown, toggleCode } =
+  const { containerRef, codeVisible, isDragging, leftWidth, rightWidth, handleMouseDown, toggleCode } =
     useSplitPane();
 
   useEffect(() => {
@@ -93,7 +93,7 @@ export function ReactEditor({
 
   return (
     <div
-      className={`editor-content editor-content-react tab-${activeTab}`}
+      className={`editor-content editor-content-react tab-${activeTab}${isDragging ? ' is-dragging' : ''}`}
       ref={containerRef}
       style={{
         '--split-left': leftWidth,

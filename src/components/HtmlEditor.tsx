@@ -18,7 +18,7 @@ export function HtmlEditor({
   activeTab?: 'code' | 'preview';
 }) {
   const [localCode, setLocalCode] = useState(code);
-  const { containerRef, codeVisible, leftWidth, rightWidth, handleMouseDown, toggleCode } =
+  const { containerRef, codeVisible, isDragging, leftWidth, rightWidth, handleMouseDown, toggleCode } =
     useSplitPane();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export function HtmlEditor({
 
   return (
     <div className={`editor-content editor-content-html tab-${activeTab}`}>
-      <div className="split-container" ref={containerRef}>
+      <div className={`split-container${isDragging ? ' is-dragging' : ''}`} ref={containerRef}>
         <div
           className="split-pane split-pane-left"
           style={{ width: leftWidth }}
