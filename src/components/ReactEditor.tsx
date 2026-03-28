@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useRef } from 'react';
+import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import {
   SandpackProvider,
   SandpackLayout,
@@ -7,7 +7,8 @@ import {
   useSandpack,
 } from '@codesandbox/sandpack-react';
 import { SandpackStatusMonitor } from './SandpackStatusMonitor';
-import { SANDPACK_DEPENDENCIES, processReactCode } from '../lib/sandpack';
+import { processReactCode } from '../lib/sandpack';
+import { detectDependencies } from '../lib/detectDependencies';
 
 function SandpackSyncCode({
   initialCode,
@@ -42,6 +43,22 @@ function SandpackSyncCode({
   return null;
 }
 
+function useDependencies(code: string) {
+  const dependencies = useMemo(() => detectDependencies(code), [code]);
+  const prevFingerprintRef = useRef('');
+  const [depsKey, setDepsKey] = useState(0);
+
+  useEffect(() => {
+    const fingerprint = Object.keys(dependencies).sort().join(',');
+    if (prevFingerprintRef.current && prevFingerprintRef.current !== fingerprint) {
+      setDepsKey((k) => k + 1);
+    }
+    prevFingerprintRef.current = fingerprint;
+  }, [dependencies]);
+
+  return { dependencies, depsKey };
+}
+
 export function ReactEditor({
   code,
   onCodeChange,
@@ -56,17 +73,32 @@ export function ReactEditor({
   activeTab?: 'code' | 'preview';
 }) {
   const processedCode = useMemo(() => processReactCode(code), [code]);
+  const [liveCode, setLiveCode] = useState(processedCode);
+  const { dependencies, depsKey } = useDependencies(liveCode);
+
+  // Reset liveCode when the code prop changes (e.g., snippet switch)
+  useEffect(() => {
+    setLiveCode(processedCode);
+  }, [processedCode]);
+
+  const handleCodeChange = useCallback(
+    (newCode: string) => {
+      setLiveCode(newCode);
+      onCodeChange(newCode);
+    },
+    [onCodeChange]
+  );
 
   return (
     <div className={`editor-content editor-content-react tab-${activeTab}`}>
       <SandpackProvider
-        key={refreshKey}
+        key={`${refreshKey}-${depsKey}`}
         template="react-ts"
         files={{
-          '/App.tsx': processedCode,
+          '/App.tsx': liveCode,
         }}
         customSetup={{
-          dependencies: SANDPACK_DEPENDENCIES,
+          dependencies,
         }}
         options={{
           externalResources: ['https://cdn.tailwindcss.com'],
@@ -88,8 +120,8 @@ export function ReactEditor({
           />
         </SandpackLayout>
         <SandpackSyncCode
-          initialCode={processedCode}
-          onCodeChange={onCodeChange}
+          initialCode={liveCode}
+          onCodeChange={handleCodeChange}
         />
         <SandpackStatusMonitor onStatusChange={onLoadingChange} />
       </SandpackProvider>

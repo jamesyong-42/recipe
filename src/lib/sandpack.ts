@@ -1,25 +1,3 @@
-export const SANDPACK_DEPENDENCIES: Record<string, string> = {
-  'lucide-react': 'latest',
-  three: 'latest',
-  '@react-three/fiber': 'latest',
-  '@react-three/drei': 'latest',
-  'matter-js': 'latest',
-  gsap: 'latest',
-  'framer-motion': 'latest',
-  d3: 'latest',
-  'lottie-react': 'latest',
-  '@phosphor-icons/react': 'latest',
-  zustand: 'latest',
-  immer: 'latest',
-  tweakpane: 'latest',
-  'react-virtuoso': 'latest',
-  xterm: 'latest',
-  'xterm-addon-fit': 'latest',
-  '@react-three/postprocessing': 'latest',
-  postprocessing: 'latest',
-  maath: 'latest',
-};
-
 export function processReactCode(code: string): string {
   // Check if code uses React.* (e.g., React.useState, React.createElement)
   const usesReactDot = /\bReact\.\w+/.test(code);

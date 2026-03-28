@@ -5,11 +5,8 @@ import {
   SandpackPreview as SandpackPreviewPane,
 } from '@codesandbox/sandpack-react';
 import { SandpackStatusMonitor } from './SandpackStatusMonitor';
-import {
-  SANDPACK_DEPENDENCIES,
-  processReactCode,
-  generateHtmlDocument,
-} from '../lib/sandpack';
+import { processReactCode, generateHtmlDocument } from '../lib/sandpack';
+import { detectDependencies } from '../lib/detectDependencies';
 import type { SnippetType } from '../types';
 
 interface SnippetPreviewProps {
@@ -55,6 +52,7 @@ function ReactPreview({
   onLoadingChange?: (loading: boolean) => void;
 }) {
   const processedCode = useMemo(() => processReactCode(code), [code]);
+  const dependencies = useMemo(() => detectDependencies(processedCode), [processedCode]);
 
   return (
     <SandpackProvider
@@ -63,7 +61,7 @@ function ReactPreview({
         '/App.tsx': processedCode,
       }}
       customSetup={{
-        dependencies: SANDPACK_DEPENDENCIES,
+        dependencies,
       }}
       options={{
         externalResources: [
