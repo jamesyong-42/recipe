@@ -505,7 +505,70 @@ body {
   height: var(--preview-height, 600px) !important;
 }
 
-/* React Editor view - Sandpack with strict 50/50 split */
+/* Resizable split container */
+.split-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.split-pane {
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.split-pane-left {
+  min-width: 0;
+}
+
+.split-pane-right {
+  min-width: 0;
+  background: #fafafa;
+}
+
+.split-divider {
+  position: relative;
+  width: 5px;
+  flex-shrink: 0;
+  background: #e5e7eb;
+  cursor: col-resize;
+  transition: background 0.15s;
+  z-index: 2;
+}
+
+.split-divider:hover {
+  background: #d1d5db;
+}
+
+.split-toggle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  z-index: 3;
+  padding: 0;
+}
+
+.split-toggle:hover {
+  border-color: #000;
+  color: #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* React Editor view */
 .editor-content-react {
   width: 100%;
   height: 100%;
@@ -514,25 +577,6 @@ body {
 .editor-content-react .sp-wrapper {
   height: 100% !important;
   width: 100% !important;
-}
-
-.editor-content-react .sp-layout {
-  height: 100% !important;
-  width: 100% !important;
-  border: none !important;
-  border-radius: 0 !important;
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-}
-
-/* Both code editor and preview are wrapped in .sp-stack */
-.editor-content-react .sp-layout > .sp-stack {
-  width: 50% !important;
-  min-width: 50% !important;
-  max-width: 50% !important;
-  height: 100% !important;
-  flex: none !important;
 }
 
 .editor-content-react .sp-code-editor {
@@ -556,36 +600,8 @@ body {
   height: 100% !important;
 }
 
-.editor-content-react .sp-code-editor {
-  height: 100% !important;
-}
-
 .editor-content-react .cm-editor {
   height: 100% !important;
-}
-
-/* HTML Editor view - Monaco + iframe with strict 50/50 split */
-.editor-content-html {
-  display: flex;
-  flex-direction: row;
-}
-
-.editor-content-html .editor-pane {
-  width: 50%;
-  min-width: 50%;
-  max-width: 50%;
-  flex: none;
-  border-right: 1px solid #e5e7eb;
-  overflow: hidden;
-}
-
-.editor-content-html .preview-pane {
-  width: 50%;
-  min-width: 50%;
-  max-width: 50%;
-  flex: none;
-  overflow: hidden;
-  background: #fafafa;
 }
 
 /* Global Sandpack theme */
@@ -920,49 +936,26 @@ body {
     flex-shrink: 0;
   }
 
-  /* HTML editor: use column layout, toggle panels via display */
-  .editor-content-html {
+  /* Hide split divider on mobile — tab bar handles switching */
+  .split-divider {
+    display: none;
+  }
+
+  /* Mobile: stack panels vertically, use tab switching */
+  .split-container {
     flex-direction: column;
   }
 
-  .editor-content-html .editor-pane,
-  .editor-content-html .preview-pane {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+  .split-pane {
+    width: 100% !important;
     height: 100%;
-    border-right: none;
-    border-bottom: none;
   }
 
-  .editor-content-html.tab-preview .editor-pane {
+  .tab-preview .split-pane-left {
     display: none;
   }
 
-  .editor-content-html.tab-code .preview-pane {
+  .tab-code .split-pane-right {
     display: none;
-  }
-
-  /* React editor: hide inactive Sandpack panel */
-  .editor-content-react.tab-preview .sp-layout > .sp-stack:first-child {
-    display: none !important;
-  }
-
-  .editor-content-react.tab-preview .sp-layout > .sp-stack:last-child {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    flex: 1 !important;
-  }
-
-  .editor-content-react.tab-code .sp-layout > .sp-stack:last-child {
-    display: none !important;
-  }
-
-  .editor-content-react.tab-code .sp-layout > .sp-stack:first-child {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    flex: 1 !important;
   }
 }

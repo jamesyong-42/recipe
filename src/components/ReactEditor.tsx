@@ -1,14 +1,15 @@
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import {
   SandpackProvider,
-  SandpackLayout,
   SandpackCodeEditor,
   SandpackPreview,
   useSandpack,
 } from '@codesandbox/sandpack-react';
 import { SandpackStatusMonitor } from './SandpackStatusMonitor';
+import { SplitDivider } from './SplitDivider';
 import { processReactCode } from '../lib/sandpack';
 import { detectDependencies } from '../lib/detectDependencies';
+import { useSplitPane } from '../hooks/useSplitPane';
 
 function SandpackSyncCode({
   initialCode,
@@ -23,7 +24,6 @@ function SandpackSyncCode({
   const lastSyncedCode = useRef(initialCode);
 
   useEffect(() => {
-    // Skip if code matches initial or last synced code (no real change)
     if (code === initialCode || code === lastSyncedCode.current) {
       return;
     }
@@ -75,8 +75,9 @@ export function ReactEditor({
   const processedCode = useMemo(() => processReactCode(code), [code]);
   const [liveCode, setLiveCode] = useState(processedCode);
   const { dependencies, depsKey } = useDependencies(liveCode);
+  const { containerRef, codeVisible, leftWidth, rightWidth, handleMouseDown, toggleCode } =
+    useSplitPane();
 
-  // Reset liveCode when the code prop changes (e.g., snippet switch)
   useEffect(() => {
     setLiveCode(processedCode);
   }, [processedCode]);
@@ -106,19 +107,34 @@ export function ReactEditor({
           recompileDelay: 500,
         }}
       >
-        <SandpackLayout>
-          <SandpackCodeEditor
-            showLineNumbers
-            showTabs={false}
-            style={{ flex: 1, minWidth: '50%' }}
+        <div className="split-container" ref={containerRef}>
+          <div
+            className="split-pane split-pane-left"
+            style={{ width: leftWidth }}
+          >
+            <SandpackCodeEditor
+              showLineNumbers
+              showTabs={false}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+          <SplitDivider
+            codeVisible={codeVisible}
+            onMouseDown={handleMouseDown}
+            onToggle={toggleCode}
           />
-          <SandpackPreview
-            showNavigator={false}
-            showRefreshButton={false}
-            showOpenInCodeSandbox={false}
-            style={{ flex: 1, minWidth: '50%' }}
-          />
-        </SandpackLayout>
+          <div
+            className="split-pane split-pane-right"
+            style={{ width: rightWidth }}
+          >
+            <SandpackPreview
+              showNavigator={false}
+              showRefreshButton={false}
+              showOpenInCodeSandbox={false}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
         <SandpackSyncCode
           initialCode={liveCode}
           onCodeChange={handleCodeChange}
