@@ -4,27 +4,24 @@
 
 **Paste, preview, and manage UI code snippets — instantly.**
 
-[Live Demo](https://jamesyong-42.github.io/recipe/) &nbsp;&middot;&nbsp; [Report Bug](https://github.com/jamesyong-42/recipe/issues) &nbsp;&middot;&nbsp; [Request Feature](https://github.com/jamesyong-42/recipe/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](LICENSE)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/jamesyong-42/recipe/deploy.yml?label=deploy)](https://github.com/jamesyong-42/recipe/actions)
+[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org)
+
+[Live Demo](https://jamesyong-42.github.io/recipe/)
 
 </div>
 
 ---
 
-Recipe is a lightweight, browser-based tool for saving and previewing UI code snippets. Paste any React or HTML code and see it render live — no build step, no server, no signup required.
+- Live preview for React (Sandpack) and HTML (Monaco) snippets
+- Auto-detects npm dependencies from imports
+- Draggable split pane with collapsible editor
+- Optional Supabase cloud sync — configurable from the UI
+- Offline-first with localStorage, installable as PWA
 
-## Highlights
-
-| | Feature | Description |
-|---|---|---|
-| **&lt;/&gt;** | **Live Preview** | Paste React or HTML and see it render instantly via Sandpack and Monaco |
-| **:package:** | **Smart Dependencies** | Auto-detects `import` statements and loads only the npm packages your snippet needs |
-| **:arrows_leftright:** | **Draggable Split** | Resize the code/preview panes by dragging, or collapse the editor entirely |
-| **:cloud:** | **Cloud Sync** | Optionally connect your own Supabase — configure it right from the Settings UI |
-| **:floppy_disk:** | **Offline First** | Works immediately with localStorage, zero config, no account needed |
-| **:iphone:** | **Mobile Ready** | Responsive layout with code/preview tab switching on small screens |
-| **:rocket:** | **PWA** | Installable on desktop and mobile as a standalone app |
-
-## Quick Start
+## Getting Started
 
 ```bash
 git clone https://github.com/jamesyong-42/recipe.git
@@ -33,50 +30,14 @@ pnpm install
 pnpm dev
 ```
 
-Open **https://localhost:5178** — paste a snippet or click **New Snippet** to get started.
+## Cloud Sync
 
-## Cloud Sync (Optional)
-
-Recipe works fully offline with localStorage. To enable cross-device sync:
-
-1. Create a free project at [supabase.com](https://supabase.com)
-2. In Recipe, click the **gear icon** > expand **Database Setup** > copy the SQL
-3. Run the SQL in your Supabase project's **SQL Editor**
-4. Enter your project URL and anon key in Recipe's Settings, then click **Test & Connect**
-
-Alternatively, set environment variables for your own deployment:
-
-```bash
-cp .env.example .env
-# Fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
-```
+Click the **gear icon** in the header to connect your own [Supabase](https://supabase.com) project. The setup SQL is provided in the Settings modal. No account required for local use.
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | [React 19](https://react.dev) + TypeScript |
-| Build | [Vite 7](https://vite.dev) with Brotli compression |
-| React Preview | [Sandpack](https://sandpack.codesandbox.io) (CodeSandbox runtime) |
-| HTML Editor | [Monaco Editor](https://microsoft.github.io/monaco-editor/) |
-| Storage | [Supabase](https://supabase.com) (optional) + localStorage |
-| Routing | [react-router-dom v7](https://reactrouter.com) |
-
-## Project Structure
-
-```
-src/
-  components/    UI components (editors, gallery, settings modal, split pane)
-  contexts/      React context (Supabase connection state)
-  hooks/         Custom hooks (useSnippets, useSplitPane, useInView)
-  lib/           Utilities (dependency detection, Supabase manager, Sandpack helpers)
-  pages/         Route pages (Home, Snippet)
-```
-
-## Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
+React 19 · TypeScript · Vite 7 · Sandpack · Monaco Editor · Supabase · react-router-dom
 
 ## License
 
-[MIT](LICENSE) &copy; 2025-2026 James Yong
+[MIT](LICENSE)
